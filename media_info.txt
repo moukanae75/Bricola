@@ -1,0 +1,1 @@
+0|photo.jpg|uploads/photo.jpg|IMAGE

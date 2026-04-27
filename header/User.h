@@ -17,12 +17,14 @@ public:
 
     bool login(std::string email, std::string password);
     void registerUser(std::string password);
+    void setHashedPassword(std::string hashed) { this->password = hashed; }
     
-   // std::string hashPassword(std::string password);
+    std::string hashPassword(std::string password) const;
 
     int getId() const { return id; }
     std::string getEmail() const { return email; }
     std::string getTelephone() const { return telephone; }
+    std::string getPassword() const { return password; }
 };
 
 #endif
