@@ -1,4 +1,4 @@
-#include "header/evaluation.h"
+#include "../header/Evaluation.h"
 
 Evaluation::Evaluation(double n, std::string c, int clientID, int artisanID)
     : id(0), note(n), commentaire(c), fk_client(clientID), fk_artisan(artisanID) {

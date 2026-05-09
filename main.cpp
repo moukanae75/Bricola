@@ -9,7 +9,7 @@
 #include "header/evaluation.h"
 #include "header/ServiceRequest.h"
 #include "header/Media.h" // Integration des classes originales C++
-
+#include <cstdlib>
 using namespace std;
 
 // Fonction de nettoyage rapide du buffer pour eviter les problemes de getline()
@@ -19,6 +19,7 @@ void clearBuffer() {
 
 int main() {
     // ---- 1. Connexion a la Base de Donnees ----
+    system("cls");
     MYSQL* conn;
     conn = mysql_init(0);
     conn = mysql_real_connect(conn, "localhost", "root", "", "bricola", 3306, NULL, 0);
@@ -147,9 +148,10 @@ int main() {
             ServiceRequest req;
             req.updateStatus(ServiceStatus::PENDING);
 
-            
 
             // Afficher les informations de la demande
+            Media m(nomFichier, "uploads/" + nomFichier, mt);
+            m.saveToDisk(); // File I/O Serialization
             cout << "\n=== Recapitulatif de la demande ===\n";
             cout << "Description  : " << desc << "\n";
             cout << "Client ID    : " << id_client << "\n";

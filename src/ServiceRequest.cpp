@@ -1,4 +1,4 @@
-#include "header/ServiceRequest.h"
+#include "../header/ServiceRequest.h"
 
 ServiceRequest::ServiceRequest() : id(0), status(ServiceStatus::PENDING), clientID(0), artisanID(0) {}
 

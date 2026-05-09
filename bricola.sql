@@ -21,8 +21,20 @@ CREATE TABLE administrateur (
 
 CREATE TABLE artisan (
     id_artisan INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100),
+    email VARCHAR(100),
+    mot_de_passe VARCHAR(100),
+    telephone VARCHAR(40),
     metier_artisan VARCHAR(100),
     dispo_artisan ENUM('disponible','pas disponible')
+);
+
+-- Table pour stocker la liste des compétences (Proposer compétence)
+CREATE TABLE competence_artisan (
+    id_competence INT AUTO_INCREMENT PRIMARY KEY,
+    nom_competence VARCHAR(100),
+    fk_artisan INT,
+    FOREIGN KEY (fk_artisan) REFERENCES artisan(id_artisan) ON DELETE CASCADE
 );
 
 CREATE TABLE desservice (
