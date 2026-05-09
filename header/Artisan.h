@@ -17,33 +17,21 @@ private:
 public:
     using User::User;
 
-    // Propriétés de base
-    void updateAvailability(bool status);
+    void setMetier(std::string m) { metier = m; }
+    void updateAvailability(bool status, MYSQL* conn, const std::string& id_artisan);
     bool getAvailability() const;
     void setAverageRating(double rating);
     double getAverageRating() const;
 
-    // --- Fonctionnalités du diagramme de cas d'utilisation ---
+    void saveToDB(MYSQL* conn);
+    void accepterService(ServiceRequest& request, MYSQL* conn);
+    void refuserService(ServiceRequest& request, MYSQL* conn);
+    void consulterServicesAssignes(MYSQL* conn, const std::string& id_artisan) const;
+    void proposerCompetence(const std::string& competence, MYSQL* conn, const std::string& id_artisan);
+    double fetchAverageRating(MYSQL* conn, const std::string& id_artisan);
 
-    // 2. Accepter service
-    void accepterService(ServiceRequest& request);
-
-    // 3. Refuser service
-    void refuserService(ServiceRequest& request);
-
-    // 4. Modifier service (ex: Activer service / Désactiver service)
-    void modifierService(ServiceRequest& request, ServiceStatus newStatus);
-
-    // 5. Consulter services assignés
-    void consulterServicesAssignes(const std::vector<ServiceRequest>& allRequests) const;
-
-    // 6. Consulter évaluations
-    void consulterEvaluations(const std::vector<Evaluation>& allEvaluations) const;
-
-    // 7. Proposer compétence
-    void proposerCompetence(const std::string& competence);
-
-    const std::vector<std::string>& getCompetences() const;
+    static void afficherTous(MYSQL* conn);
+    static void supprimer(MYSQL* conn, const std::string& id);
 };
 
-#endif // ARTISAN_H
+#endif

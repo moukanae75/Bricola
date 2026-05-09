@@ -1,18 +1,24 @@
+#ifndef EVALUATION_H
+#define EVALUATION_H
+
 #include <vector>
 #include <string>
+#include "mysql.h"
 
 class Evaluation {
 private:
     int id;
-    double note; 
+    std::string note; 
     std::string commentaire;
-    int fk_client;
-    int fk_artisan;
+    std::string fk_client;
+    std::string fk_artisan;
 
 public:
-    Evaluation(double n, std::string c, int clientID, int artisanID);
+    Evaluation(std::string n, std::string c, std::string clientID, std::string artisanID);
 
-    static double computeArtisanAvg(const std::vector<Evaluation>&  );
+    void saveToDB(MYSQL* conn);
     
-    double getNote() const { return note; }
+    std::string getNote() const { return note; }
 };
+
+#endif
