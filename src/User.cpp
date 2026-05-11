@@ -16,12 +16,8 @@ std::string User::hashPassword(std::string password) const {
     return ss.str();
 }
 
-void User::registerUser(std::string password) {
+void User::setPassword(std::string password) {
     this->password = hashPassword(password);
-}
-
-bool User::login(std::string email, std::string password) {
-    return (this->email == email && this->password == hashPassword(password));
 }
 
 bool User::loginUser(MYSQL* conn, const string& email, const string& password_input, string& out_role, string& out_id) {

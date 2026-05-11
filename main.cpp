@@ -68,7 +68,7 @@ int main() {
                 cout << "Adresse : "; getline(cin, adresse);
 
                 Client nouveauClient(0, nom, email, telephone);
-                nouveauClient.registerUser(mot_de_passe);
+                nouveauClient.setPassword(mot_de_passe);
                 nouveauClient.setAdresse(adresse);
                 nouveauClient.saveToDB(conn);
                 system("pause");
@@ -83,7 +83,7 @@ int main() {
                 cout << "Metier (ex: Plombier) : "; getline(cin, metier);
 
                 Artisan nouvelArtisan(0, nom, email, telephone);
-                nouvelArtisan.registerUser(mot_de_passe);
+                nouvelArtisan.setPassword(mot_de_passe);
                 nouvelArtisan.setMetier(metier);
                 nouvelArtisan.saveToDB(conn);
                 system("pause");
