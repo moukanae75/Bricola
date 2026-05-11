@@ -1,7 +1,4 @@
 <?php
-// ============================================================
-//  app/views/artisans/index.php — Liste des artisans + filtres
-// ============================================================
 require __DIR__ . '/../layouts/header.php';
 ?>
 

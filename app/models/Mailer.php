@@ -1,7 +1,5 @@
 <?php
-// ============================================================
-//  app/models/Mailer.php — Envoi d'emails via Gmail SMTP
-// ============================================================
+
 
 require_once dirname(dirname(__DIR__)) . '/vendor/autoload.php';
 
@@ -18,8 +16,8 @@ class Mailer {
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'khoukhmouhssine1@gmail.com'; // <-- votre Gmail
-            $mail->Password   = 'wanj pgvf ycqb ipmi';     // <-- mot de passe d'application Gmail
+            $mail->Username   = 'khoukhmouhssine1@gmail.com'; 
+            $mail->Password   = 'wanj pgvf ycqb ipmi';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port = 465;
             $mail->CharSet    = 'UTF-8';

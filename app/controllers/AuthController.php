@@ -1,8 +1,8 @@
 <?php
 
 
-require_once $APP . '/app/models/UserModel.php';
-require_once $APP . '/app/models/Mailer.php';
+require_once __DIR__ . '/app/models/UserModel.php';
+require_once __DIR__ . '/app/models/Mailer.php';
 
 class AuthController {
 

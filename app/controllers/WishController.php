@@ -1,10 +1,6 @@
 <?php
-
-
-$APP = dirname(dirname(__DIR__));
-
-require_once $APP . '/app/models/WishModel.php';
-require_once $APP . '/app/models/ArtisanModel.php';
+require_once __DIR__ . '/app/models/WishModel.php';
+require_once __DIR__ . '/app/models/ArtisanModel.php';
 
 class WishController {
 

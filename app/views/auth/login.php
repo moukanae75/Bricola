@@ -11,7 +11,7 @@
 <body class="auth-body">
 
 <div class="auth-wrapper">
-    <!-- Côté gauche (illustration) -->
+    
     <div class="auth-left">
         <div class="auth-brand">
             <a href="<?= url('') ?>" class="logo">
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <!-- Côté droit (formulaire) -->
+   
     <div class="auth-right">
         <div class="auth-card">
             <h1>Bon retour !</h1>
