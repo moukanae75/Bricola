@@ -62,6 +62,7 @@ void Artisan::proposerCompetence(const string& competence, MYSQL* conn, const st
 
 double Artisan::fetchAverageRating(MYSQL* conn, const string& id_artisan) {
     if (!conn) return 0.0;
+    //AVG claclule la moyenne des evaluations de l'artisan
     string query = "SELECT AVG(note_evaluation) FROM evaluation WHERE fk_artisan = " + id_artisan;
     if (mysql_query(conn, query.c_str()) == 0) {
         MYSQL_RES* res = mysql_store_result(conn);
