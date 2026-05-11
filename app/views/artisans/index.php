@@ -6,9 +6,9 @@ require __DIR__ . '/../layouts/header.php';
     <div class="container">
         <h1>
             <?php if ($category): ?>
-                <i class="fa-solid fa-hard-hat"></i> <?= e($category) ?>s
+                <i class="fa-solid fa-hard-hat"></i> <?= $category ?>s
             <?php elseif ($search): ?>
-                Résultats pour « <?= e($search) ?> »
+                Résultats pour « <?= $search ?> »
             <?php else: ?>
                 Tous nos artisans
             <?php endif; ?>
@@ -26,7 +26,7 @@ require __DIR__ . '/../layouts/header.php';
         <form method="GET" action="<?= url('artisans') ?>">
             <div class="filter-group">
                 <label>Recherche</label>
-                <input type="text" name="search" value="<?= e($search) ?>" placeholder="Nom, catégorie…">
+                <input type="text" name="search" value="<?= $search ?>" placeholder="Nom, catégorie…">
             </div>
 
             <div class="filter-group">
@@ -37,7 +37,7 @@ require __DIR__ . '/../layouts/header.php';
                     <?php foreach ($all_cats as $c): ?>
                     <a href="<?= url('artisans') ?>?category=<?= urlencode($c) ?><?= $city ? '&city='.urlencode($city) : '' ?>"
                        class="chip <?= $category === $c ? 'active' : '' ?>">
-                       <?= e($c) ?>
+                       <?= $c ?>
                     </a>
                     <?php endforeach; ?>
                 </div>
@@ -57,7 +57,7 @@ require __DIR__ . '/../layouts/header.php';
             <input type="hidden" name="category" value="<?= e($category) ?>">
             <?php endif; ?>
 
-            <button type="submit" class="btn btn-primary" style="width:100%">
+            <button type="submit" class="btn btn-primary" style="width:100%"
                 <i class="fa-solid fa-filter"></i> Appliquer
             </button>
 
@@ -79,7 +79,7 @@ require __DIR__ . '/../layouts/header.php';
             <a href="<?= url('artisans') ?>" class="btn btn-primary">Voir tous les artisans</a>
         </div>
         <?php else: ?>
-        <div class="artisans-grid">
+        <div class="artisans-grid"
             <?php foreach ($artisans as $a): ?>
             <?php include __DIR__ . '/../layouts/_artisan_card.php'; ?>
             <?php endforeach; ?>
