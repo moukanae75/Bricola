@@ -15,9 +15,7 @@ protected:
 public:
     User(int id, std::string n, std::string e, std::string t);
 
-    bool login(std::string email, std::string password); // old method
-    void registerUser(std::string password);
-    void setHashedPassword(std::string hashed) { this->password = hashed; }
+    void setPassword(std::string password);
     
     std::string hashPassword(std::string password) const;
 

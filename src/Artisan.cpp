@@ -5,6 +5,8 @@ using namespace std;
 
 void Artisan::saveToDB(MYSQL* conn) {
     if (!conn) return;
+    /*INSERT INTO artisan (nom, email, mot_de_passe, telephone, metier_artisan, dispo_artisan) 
+    VALUES ('Ali', 'ali@email.com', '123456', '0600', 'Plombier', 'disponible')*/
     string query = "INSERT INTO artisan (nom, email, mot_de_passe, telephone, metier_artisan, dispo_artisan) VALUES ('" + nom + "', '" + email + "', '" + password + "', '" + telephone + "', '" + metier + "', 'disponible')";
     if (mysql_query(conn, query.c_str()) == 0) cout << ">> SUCCES : Artisan ajoute !\n";
     else cout << ">> ERREUR MYSQL : " << mysql_error(conn) << "\n";
