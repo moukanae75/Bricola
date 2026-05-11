@@ -1,0 +1,86 @@
+@startuml MCD_Artisan_Platform
+
+skinparam linetype ortho
+skinparam ranksep 80
+skinparam nodesep 60
+
+skinparam rectangle {
+  BackgroundColor #E6F1FB
+  BorderColor #185FA5
+  FontColor #0C447C
+  FontStyle bold
+}
+
+skinparam ellipse {
+  BackgroundColor #F1EFE8
+  BorderColor #5F5E5A
+  FontColor #2C2C2A
+  FontStyle italic
+}
+
+' ─── ENTITIES ───
+rectangle "USER\n──────────────\nid · name · email · phone" as USER
+rectangle "CLIENT\n──────────────\naddress · city" as CLIENT
+rectangle "ARTISAN\n──────────────\nbio · city · isVerified" as ARTISAN
+rectangle "ADMIN\n──────────────\nadminLevel · lastLoginAt" as ADMIN
+rectangle "CATEGORY\n──────────────\nname · status" as CATEGORY
+rectangle "SERVICE REQUEST\n──────────────\ntitle · status\nrequestedAt · scheduledAt" as SR
+rectangle "MEDIA\n──────────────\nfileUrl · type" as MEDIA
+rectangle "EVALUATION\n──────────────\nrating · isVisible" as EVALUATION
+rectangle "REPORT\n──────────────\ntype · generatedAt · content" as REPORT
+
+' ─── ASSOCIATIONS ───
+ellipse "is_a" as ISA_CLIENT
+ellipse "is_a" as ISA_ARTISAN
+ellipse "is_a" as ISA_ADMIN
+ellipse "submits" as SUBMITS
+ellipse "handles" as HANDLES
+ellipse "classifies" as CLASSIFIES
+ellipse "expertise" as EXPERTISE
+ellipse "contains" as CONTAINS
+ellipse "evaluates" as EVALUATES
+ellipse "generates" as GENERATES
+
+' ─── is_a: USER → CLIENT ───
+USER -- ISA_CLIENT : (1,1)
+ISA_CLIENT -- CLIENT : (1,1)
+
+' ─── is_a: USER → ARTISAN ───
+USER -- ISA_ARTISAN : (1,1)
+ISA_ARTISAN -- ARTISAN : (1,1)
+
+' ─── is_a: USER → ADMIN ───
+USER -- ISA_ADMIN : (1,1)
+ISA_ADMIN -- ADMIN : (1,1)
+
+' ─── submits: CLIENT — SR ───
+CLIENT -- SUBMITS : (1,N)
+SUBMITS -- SR : (1,1)
+
+' ─── handles: ARTISAN — SR ───
+ARTISAN -- HANDLES : (0,N)
+HANDLES -- SR : (0,1)
+
+' ─── classifies: CATEGORY — SR ───
+CATEGORY -- CLASSIFIES : (1,N)
+CLASSIFIES -- SR : (1,1)
+
+' ─── expertise: ARTISAN — CATEGORY ───
+ARTISAN -- EXPERTISE : (1,N)
+EXPERTISE -- CATEGORY : (1,N)
+
+' ─── contains: SR — MEDIA ───
+SR -- CONTAINS : (1,N)
+CONTAINS -- MEDIA : (1,1)
+
+' ─── evaluates (ternary) ───
+CLIENT -- EVALUATES : (0,N)
+ARTISAN -- EVALUATES : (0,N)
+SR -- EVALUATES : (0,1)
+EVALUATES -- EVALUATION : (1,1)
+
+' ─── generates: ADMIN — REPORT ───
+ADMIN -- GENERATES : (1,N)
+GENERATES -- REPORT : (1,1)
+
+@enduml

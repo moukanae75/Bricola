@@ -1,0 +1,307 @@
+
+<style>
+#cd { width: 100%; overflow-x: auto; padding: 8px 0; }
+#cd svg { min-width: 960px; font-family: "Anthropic Sans", sans-serif !important; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 4px; padding: 8px 12px; border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; }
+.leg-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-text-secondary); }
+.leg-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+</style>
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:#534AB7"></div>Auth layer</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#0F6E56"></div>Core domain</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#185FA5"></div>Chat subsystem</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#854F0B"></div>Event / infrastructure</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#888"></div>Join / value objects</div>
+</div>
+<div id="cd"></div>
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: '"Anthropic Sans", sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '12px',
+    fontFamily: '"Anthropic Sans", sans-serif',
+    lineColor: dark ? '#9c9a92' : '#73726c',
+    textColor: dark ? '#c2c0b6' : '#3d3d3a',
+    primaryColor: dark ? '#2a2a40' : '#eeedfe',
+    primaryBorderColor: dark ? '#534AB7' : '#534AB7',
+    secondaryColor: dark ? '#1a2e24' : '#e1f5ee',
+    tertiaryColor: dark ? '#2c1e0a' : '#faeeda',
+    classText: dark ? '#c2c0b6' : '#1a1a1a',
+  },
+});
+
+const diagram = `classDiagram
+  direction TB
+
+  %% ─────── AUTH LAYER (decoupled from domain) ───────
+  class Account {
+    -int id_account
+    -String email
+    -String hashed_password
+    -String role
+    -int fk_entity_id
+    +register(email: String, pwd: String) Account
+    +login(email: String, pwd: String) String~token~
+    +logout(token: String) void
+    +changePassword(old: String, new: String) bool
+    +resetPassword(email: String) void
+  }
+
+  %% ─────── API GATEWAY ───────
+  class ApiGateway {
+    -String baseUrl
+    -String version
+    +authenticate(token: String) bool
+    +routeRequest(method: String, path: String, body: JSON) Response
+    +rateLimit(clientIp: String) bool
+    +logRequest(req: Request) void
+  }
+
+  %% ─────── CORE DOMAIN ENTITIES ───────
+  class Client {
+    -int id_client
+    -String nom_client
+    -String telephone_client
+    -String adresse
+    -String ville
+    -Date date_inscription
+    +browseServices() List~Desservice~
+    +submitDemande(desc: String, type: String) Demande
+    +trackDemandeStatus(id: int) String
+    +payDemande(id: int, method: String) Paiement
+    +leaveEvaluation(note: int, comment: String) Evaluation
+    +viewHistory() List~Demande~
+  }
+
+  class Artisan {
+    -int id_artisan
+    -String nom_artisan
+    -String telephone_artisan
+    -String adresse
+    -String ville
+    -bool dispo_artisan
+    +viewAssignedDemandes() List~Demande~
+    +updateAvailability(dispo: bool) void
+    +acceptDemande(id: int) void
+    +refuseDemande(id: int) void
+    +logReparation(desc: String, cout: float) Reparation
+    +markReparationComplete(id: int) void
+    +viewOwnEvaluations() List~Evaluation~
+    +getMetiers() List~Metier~
+  }
+
+  class Administrateur {
+    -int id_admin
+    -String nom_admin
+    -String telephone_admin
+    +manageArtisans() List~Artisan~
+    +manageServices() List~Desservice~
+    +viewAllDemandes() List~Demande~
+    +assignArtisanToDemande(idD: int, idA: int) void
+    +viewRapportFinancier() RapportFinancier
+    +monitorEvaluations() List~Evaluation~
+    +generateRapport(start: Date, end: Date) RapportFinancier
+  }
+
+  class Demande {
+    -int id_demande
+    -Date date_creation
+    -String statut
+    -String type_demande
+    -String description
+    -int fk_client
+    -int fk_artisan
+    +create() void
+    +updateStatus(s: String) void
+    +assign(idArtisan: int) void
+    +cancel() void
+    +getServices() List~Desservice~
+  }
+
+  class Reparation {
+    -int id_reparation
+    -String description_panne
+    -Date date_debut
+    -Date date_fin
+    -float cout
+    -int fk_demande
+    +start() void
+    +complete() void
+    +updateDetails(desc: String, cout: float) void
+    +getCost() float
+  }
+
+  class Desservice {
+    -int id_service
+    -String nom_service
+    -String description_service
+    -float tarif_service
+    +create() void
+    +update(name: String, tarif: float) void
+    +delete() void
+    +getDetails() Desservice
+  }
+
+  class DemandeDesservice {
+    -int fk_demande
+    -int fk_service
+    -int quantite
+    +add(idD: int, idS: int, qty: int) void
+    +remove(idD: int, idS: int) void
+  }
+
+  class Paiement {
+    -int id_paiement
+    -float montant
+    -String methode
+    -String statut
+    -Date date_paiement
+    -int fk_demande
+    +process() bool
+    +cancel() void
+    +getStatus() String
+    +getReceipt() String
+  }
+
+  class Evaluation {
+    -int id_evaluation
+    -int note
+    -String commentaire
+    -Date date_evaluation
+    -int fk_demande
+    +submit() void
+    +update(note: int, comment: String) void
+    +delete() void
+    +getAvgForArtisan(idA: int) float
+  }
+
+  class Metier {
+    -int id_metier
+    -String nom_metier
+    +create(name: String) void
+    +update(name: String) void
+    +delete() void
+    +list() List~Metier~
+  }
+
+  class ArtisanMetier {
+    -int fk_artisan
+    -int fk_metier
+    +assign(idA: int, idM: int) void
+    +remove(idA: int, idM: int) void
+  }
+
+  class RapportFinancier {
+    -int id_rapport
+    -Date date_generation
+    -Date debut_periode
+    -Date fin_periode
+    -float revenus_totaux
+    -float depenses_totaux
+    -int nb_demandes_completees
+    -int fk_admin
+    +generate(start: Date, end: Date) void
+    +export(format: String) File
+    +getRevenues() float
+    +getSummary() String
+  }
+
+  %% ─────── EVENT BUS (status consistency) ───────
+  class EventBus {
+    -String brokerUrl
+    -List~String~ topics
+    +publish(topic: String, payload: JSON) void
+    +subscribe(topic: String, handler: Fn) void
+    +onReparationComplete(idR: int) void
+    +onDemandeStatusChange(idD: int, status: String) void
+  }
+
+  %% ─────── CHAT SUBSYSTEM (Python) ───────
+  class ChatMessage {
+    -int id_message
+    -int fk_sender
+    -String sender_role
+    -int fk_demande
+    -String content
+    -Date sent_at
+    -bool is_read
+    +send() void
+    +markRead() void
+    +delete() void
+  }
+
+  class ChatConversation {
+    -int id_conversation
+    -int fk_client
+    -int fk_artisan
+    -int fk_demande
+    -Date created_at
+    -bool is_active
+    +open() void
+    +close() void
+    +getMessages() List~ChatMessage~
+    +notifyNewMessage(msg: ChatMessage) void
+  }
+
+  class ChatServer {
+    -String host
+    -int port
+    +start() void
+    +stop() void
+    +authenticate(token: String) bool
+    +routeMessage(msg: ChatMessage) void
+    +broadcast(convId: int, msg: ChatMessage) void
+    +persistConversation(conv: ChatConversation) void
+  }
+
+  %% ─────── AUTH RELATIONSHIPS ───────
+  Account "1" --> "1" Client : authenticates
+  Account "1" --> "1" Artisan : authenticates
+  Account "1" --> "1" Administrateur : authenticates
+
+  %% ─────── GATEWAY (all apps route through here) ───────
+  ApiGateway --> Client : serves
+  ApiGateway --> Artisan : serves
+  ApiGateway --> Administrateur : serves
+  ApiGateway --> ChatServer : serves
+
+  %% ─────── CORE DOMAIN ───────
+  Client "1" --> "0..*" Demande : places
+  Artisan "0..1" --> "0..*" Demande : assigned to
+  Administrateur "1" --> "0..*" RapportFinancier : generates
+  RapportFinancier "1" --> "0..*" Paiement : aggregates data from
+  Demande "1" *-- "0..1" Reparation : has
+  Demande "1" *-- "0..1" Paiement : has
+  Demande "1" *-- "0..1" Evaluation : receives
+  Demande "1" --> "0..*" DemandeDesservice : lists
+  Desservice "1" --> "0..*" DemandeDesservice : referenced in
+  Artisan "1" --> "1..*" ArtisanMetier : has trades
+  Metier "1" --> "1..*" ArtisanMetier : categorises
+
+  %% ─────── EVENT BUS ───────
+  Reparation --> EventBus : publishes ReparationComplete
+  EventBus --> Demande : updates statut
+
+  %% ─────── CHAT ───────
+  Client "1" --> "0..*" ChatConversation : participates in
+  Artisan "1" --> "0..*" ChatConversation : participates in
+  ChatConversation "1" *-- "0..*" ChatMessage : contains
+  ChatServer "1" o-- "0..*" ChatConversation : manages (persisted)
+  Demande "1" --> "0..*" ChatConversation : scoped to
+`;
+
+const { svg } = await mermaid.render('cd-svg', diagram);
+document.getElementById('cd').innerHTML = svg;
+
+const svgEl = document.querySelector('#cd svg');
+if (svgEl) {
+  svgEl.style.maxWidth = '100%';
+  svgEl.removeAttribute('height');
+}
+</script>
