@@ -17,13 +17,13 @@ private:
 public:
     using User::User;
 
-    void setMetier(std::string m) { metier = m; }
+    void setMetier(std::string m) { metier = m; } // apres l'inscription
     void updateAvailability(bool status, MYSQL* conn, const std::string& id_artisan);
     bool getAvailability() const;
-    void setAverageRating(double rating);
+    //void setAverageRating(double rating);
     double getAverageRating() const;
 
-    void saveToDB(MYSQL* conn);
+    void saveToDB(MYSQL* conn); // apres l'inscription
     void accepterService(ServiceRequest& request, MYSQL* conn);
     void refuserService(ServiceRequest& request, MYSQL* conn);
     void consulterServicesAssignes(MYSQL* conn, const std::string& id_artisan) const;

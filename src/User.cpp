@@ -37,8 +37,10 @@ bool User::loginUser(MYSQL* conn, const string& email, const string& password_in
     string queryClient = "SELECT id_client, mot_de_passe FROM client WHERE email = '" + email + "'";
     if (mysql_query(conn, queryClient.c_str()) == 0) {
         MYSQL_RES* res = mysql_store_result(conn);
+               
+        
         if (res) {
-            MYSQL_ROW row = mysql_fetch_row(res);
+            MYSQL_ROW row = mysql_fetch_row(res);//
             if (row) {
                 string storedHash = row[1] ? row[1] : "";
                 if (hashedInput == storedHash) {

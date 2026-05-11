@@ -21,7 +21,7 @@ void Artisan::updateAvailability(bool status, MYSQL* conn, const string& id_arti
 
 bool Artisan::getAvailability() const { return is_disponible; }
 
-void Artisan::setAverageRating(double rating) { average_rating = rating; }
+//void Artisan::setAverageRating(double rating) { average_rating = rating; }
 double Artisan::getAverageRating() const { return average_rating; }
 
 void Artisan::accepterService(ServiceRequest& request, MYSQL* conn) {
