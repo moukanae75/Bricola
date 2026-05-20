@@ -3,7 +3,7 @@
 class Database {
 
     private static $instance;
-
+    
     public static function getConnection() {
 
         if (self::$instance === null) {
