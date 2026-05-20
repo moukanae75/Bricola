@@ -1,9 +1,5 @@
 <?php
-
-
-
-
-require_once $APP . '/app/models/ServiceModel.php';
+require_once __DIR__ . '/app/models/ServiceModel.php';
 
 class ServiceController {
 
@@ -14,9 +10,6 @@ class ServiceController {
     ];
 
     public function index() {
-
-        $APP = dirname(dirname(__DIR__));
-
         AuthMiddleware::check();
 
         $error   = '';
@@ -47,6 +40,6 @@ class ServiceController {
 
         $page_title = 'Demande de service — Bricola';
         $categories = $this->categories;
-        require $APP . '/app/views/service/index.php';
+        require __DIR__ . '/app/views/service/index.php';
     }
 }

@@ -1,15 +1,13 @@
 <?php
- 
-$APP = dirname(dirname(__DIR__));
 
-require_once $APP . '/app/models/ArtisanModel.php';
-require_once $APP . '/app/models/EvaluationModel.php';
+require_once __DIR__ . '/app/models/ArtisanModel.php';
+require_once __DIR__ . '/app/models/EvaluationModel.php';
 
 class EvaluationController {
 
     public function index() {
 
-        $APP = dirname(dirname(__DIR__));
+    
 
         AuthMiddleware::check();
 
@@ -48,6 +46,6 @@ class EvaluationController {
         $stats       = $evaluationModel->getAverage($artisan_id);
         $page_title  = 'Évaluer ' . $artisan['name'] . ' — Bricola';
 
-        require $APP . '/app/views/evaluations/index.php';
+        require __DIR__ . '/app/views/evaluations/index.php';
     }
 }

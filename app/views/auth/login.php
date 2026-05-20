@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= e($page_title) ?></title>
+    <title><?= $page_title ?></title>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -11,7 +11,7 @@
 <body class="auth-body">
 
 <div class="auth-wrapper">
-    <!-- Côté gauche (illustration) -->
+    
     <div class="auth-left">
         <div class="auth-brand">
             <a href="<?= url('') ?>" class="logo">
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <!-- Côté droit (formulaire) -->
+   
     <div class="auth-right">
         <div class="auth-card">
             <h1>Bon retour !</h1>
@@ -44,7 +44,7 @@
 
             <?php if ($error): ?>
             <div class="alert alert-error">
-                <i class="fa-solid fa-circle-exclamation"></i> <?= e($error) ?>
+                <i class="fa-solid fa-circle-exclamation"></i> <?= $error ?>
             </div>
             <?php endif; ?>
 
@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <label for="email"><i class="fa-solid fa-envelope"></i> Email</label>
                     <input type="email" id="email" name="email"
-                           value="<?= e($_POST['email'] ?? '') ?>"
+                           value="<?= $_POST['email'] ?? '' ?>"
                            placeholder="votre@email.com" required>
                 </div>
 

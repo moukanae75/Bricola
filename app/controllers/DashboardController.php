@@ -1,19 +1,12 @@
 <?php
 
-
-$APP = dirname(dirname(__DIR__));
-
-require_once $APP . '/app/models/ServiceModel.php';
-require_once $APP . '/app/models/WishModel.php';
-require_once $APP . '/app/models/ArtisanModel.php';
+require_once __DIR__ . '/app/models/ServiceModel.php';
+require_once __DIR__ . '/app/models/WishModel.php';
+require_once __DIR__ . '/app/models/ArtisanModel.php';
 
 class DashboardController {
 
-    public function index() {
-
-        $APP = dirname(dirname(__DIR__));
-
-       
+    public function index() {       
         AuthMiddleware::check();
 
         $userId = $_SESSION['user_id'];
@@ -30,6 +23,6 @@ class DashboardController {
         $email_verified = $_SESSION['email_verified'] ?? false;
 
         $page_title = 'Mon espace — Bricola';
-        require $APP . '/app/views/dashboard/index.php';
+        require __DIR__ . '/app/views/dashboard/index.php';
     }
 }
